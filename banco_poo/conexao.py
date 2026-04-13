@@ -32,11 +32,21 @@ def inserir_clientes_em_lote(conexao, cursor, clientes):
     cursor.executemany("INSERT INTO clientes (nome, email) VALUES (?, ?)", clientes)
     conexao.commit()
 
+def recuperar_cliente(conexao, cursor, cliente_id):
+    cursor.execute("SELECT * FROM clientes WHERE id = ?", (cliente_id,))
+    return cursor.fetchone()
 
+def recuperar_clientes(conexao, cursor):
+    cursor.execute("SELECT * FROM clientes")
+    return cursor.fetchall()
+
+# criar_tabela(conexao, cursor)
 # data = ("João", "joao@email.com")
 # inserir_cliente(conexao, cursor, *data)
 # atualizar_cliente(conexao, cursor, 1, "João Silva", "joao.silva@email.com")
 # excluir_cliente(conexao, cursor, 1)
-clientes = [("Maria", "maria@email.com"), ("Pedro", "pedro@email.com"), ("Ana", "ana@email.com")]
-inserir_clientes_em_lote(conexao, cursor, clientes)
-conexao.close()
+# clientes = [("Maria", "maria@email.com"), ("Pedro", "pedro@email.com"), ("Ana", "ana@email.com")]
+# inserir_clientes_em_lote(conexao, cursor, clientes)
+# conexao.close()
+print(recuperar_cliente(conexao, cursor, 3))
+print(recuperar_clientes(conexao, cursor))

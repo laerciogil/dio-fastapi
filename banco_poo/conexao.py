@@ -12,3 +12,8 @@ CREATE TABLE IF NOT EXISTS clientes (
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL)
 """)
+
+data = ("João", "joao@email.com")
+cursor.execute("INSERT INTO clientes (nome, email) VALUES (?, ?)", data)
+conexao.commit()
+conexao.close()

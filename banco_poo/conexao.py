@@ -28,8 +28,15 @@ def excluir_cliente(conexao, cursor, cliente_id):
     cursor.execute("DELETE FROM clientes WHERE id = ?", (cliente_id,))
     conexao.commit()
 
+def inserir_clientes_em_lote(conexao, cursor, clientes):
+    cursor.executemany("INSERT INTO clientes (nome, email) VALUES (?, ?)", clientes)
+    conexao.commit()
 
-data = ("João", "joao@email.com")
+
+# data = ("João", "joao@email.com")
 # inserir_cliente(conexao, cursor, *data)
-atualizar_cliente(conexao, cursor, 1, "João Silva", "joao.silva@email.com")
+# atualizar_cliente(conexao, cursor, 1, "João Silva", "joao.silva@email.com")
+# excluir_cliente(conexao, cursor, 1)
+clientes = [("Maria", "maria@email.com"), ("Pedro", "pedro@email.com"), ("Ana", "ana@email.com")]
+inserir_clientes_em_lote(conexao, cursor, clientes)
 conexao.close()

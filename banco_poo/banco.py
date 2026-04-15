@@ -138,7 +138,16 @@ class Historico:
                 "data": datetime.now().strftime("%d-%m-%Y %H:%M:%S")
             }
         )
-    
+
+    def transacoes_do_dia(self):
+        data_atual = datetime.now(datetime.timezone.utc).date()
+        transacoes = []
+        for transacao in self._transacoes:
+            data_transacao = datetime.strptime(transacao["data"], "%d-%m-%Y %H:%M:%S").date()
+            if data_transacao == data_atual:
+                transacoes.append(transacao)
+        return transacoes
+
 class Transacao(ABC):
     @property
     @abstractmethod

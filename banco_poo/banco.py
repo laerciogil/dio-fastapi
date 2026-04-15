@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from datetime import datetime
+from datetime import datetime, timezone
 import textwrap
 
 class ContasIterador:
@@ -161,12 +161,12 @@ class Historico:
             {
                 "tipo": transacao.__class__.__name__,
                 "valor": transacao.valor,
-                "data": datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+                "data": datetime.now(tz=timezone.utc).strftime("%d-%m-%Y %H:%M:%S")
             }
         )
 
     def transacoes_do_dia(self):
-        data_atual = datetime.now(datetime.timezone.utc).date()
+        data_atual = datetime.now(tz=timezone.utc).date()
         transacoes = []
         for transacao in self._transacoes:
             data_transacao = datetime.strptime(transacao["data"], "%d-%m-%Y %H:%M:%S").date()

@@ -19,6 +19,10 @@ class Cliente:
         self._contas.append(conta)
     
     def realizar_transacao(self, transacao, conta):
+        if len(conta.historico.transacoes_do_dia()) >= 2:
+            print("Limite diário de transações atingido.")
+            return
+        
         transacao.registrar(conta)
 
 class PessoaFisica(Cliente):
@@ -253,9 +257,18 @@ def exibir_extrato(clientes):
         return
 
     print("\n=== EXTRATO ===")
-    for transacao in conta.historico._transacoes:
-        print(f"{transacao['data']} - {transacao['tipo']}: R$ {transacao['valor']:.2f}")
-    print(f"Saldo atual: R$ {conta.saldo:.2f}")
+    extrato = ""
+    tem_transacao = False
+    for transacao in conta.historico.gerar_relatorio():
+        tem_transacao = True
+        extrato += f"\n{transacao['data']}\n{transacao['tipo']}:\n\tR$ {transacao['valor']:.2f}"
+
+    if not tem_transacao:
+        extrato = "Nenhuma transação realizada."
+
+    print(extrato)
+    print(f"\nSaldo atual:\n\tR$ {conta.saldo:.2f}")
+    print("=================")
 
 def criar_cliente(clientes):
     nome = input("Informe o nome do cliente: ")

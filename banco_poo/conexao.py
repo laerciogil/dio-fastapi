@@ -5,6 +5,7 @@ ROOT_PATH = Path(__file__).parent
 
 conexao = sqlite3.connect(ROOT_PATH / "meu_banco.db")
 cursor = conexao.cursor()
+cursor.row_factory = sqlite3.Row
 
 def criar_tabela(conexao, cursor):
     cursor.execute("""
@@ -48,5 +49,5 @@ def recuperar_clientes(conexao, cursor):
 # clientes = [("Maria", "maria@email.com"), ("Pedro", "pedro@email.com"), ("Ana", "ana@email.com")]
 # inserir_clientes_em_lote(conexao, cursor, clientes)
 # conexao.close()
-print(recuperar_cliente(conexao, cursor, 3))
-print(recuperar_clientes(conexao, cursor))
+print(dict(recuperar_cliente(conexao, cursor, 3)))
+print([dict(row) for row in recuperar_clientes(conexao, cursor)])

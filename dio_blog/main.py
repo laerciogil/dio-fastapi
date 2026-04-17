@@ -17,5 +17,5 @@ app = FastAPI(title="DIO Blog API",
               description="API para gerenciamento de posts do blog da DIO",
               lifespan=lifespan)
 
-app.include_router(post.router)
 app.include_router(auth.router)
+app.include_router(post.router)

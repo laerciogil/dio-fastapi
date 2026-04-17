@@ -4,7 +4,7 @@ from dio_blog.security import sign_jwt
 from dio_blog.schemas.auth import LoginRequest
 from dio_blog.view.auth import LoginResponse
 
-router = APIRouter(prefix="/auth", tags=["auth"])
+router = APIRouter(prefix="/auth", tags=["Auth"])
 
 @router.post("/login", response_model=LoginResponse)
 async def login(data: LoginRequest):

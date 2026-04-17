@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
 from dio_blog.database import database, metadata, engine
-from dio_blog.controller.post import router as post_router
+from dio_blog.controller import auth, post
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -17,4 +17,5 @@ app = FastAPI(title="DIO Blog API",
               description="API para gerenciamento de posts do blog da DIO",
               lifespan=lifespan)
 
-app.include_router(post_router)
+app.include_router(post.router)
+app.include_router(auth.router)

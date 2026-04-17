@@ -1,11 +1,12 @@
-from fastapi import status, APIRouter
+from fastapi import status, APIRouter, Depends
 
 from dio_blog.view.post import PostResponse
 from dio_blog.schemas.post import PostRequest, PostUpdateRequest
 from dio_blog.service.post import PostService
+from dio_blog.security import login_required
 
 service = PostService()
-router = APIRouter(prefix="/posts", tags=["Posts"])
+router = APIRouter(prefix="/posts", tags=["Posts"], dependencies=[Depends(login_required)])
 
 @router.get("/", response_model=list[PostResponse])
 async def read_posts(published: bool = False, limit: int = 10, skip: int = 0):

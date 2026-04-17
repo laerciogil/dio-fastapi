@@ -3,8 +3,8 @@ from datetime import datetime, UTC
 
 from fastapi import Response, status, Cookie, Header, APIRouter
 
-from view.post import PostResponse
-from schemas.post import PostRequest
+from dio_blog.view.post import PostResponse
+from dio_blog.schemas.post import PostRequest
 
 router = APIRouter(prefix="/posts", tags=["Posts"])
 

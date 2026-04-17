@@ -1,21 +1,14 @@
-import sqlalchemy as sa
-import databases
-
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
+from dio_blog.database import database, metadata, engine
 from dio_blog.controller.post import router as post_router
-
-DATABASE_URL = "sqlite:///./blog.db"
-
-database = databases.Database(DATABASE_URL)
-metadata = sa.MetaData()
-engine = sa.create_engine(DATABASE_URL, echo=True, connect_args={"check_same_thread": False})
-metadata.create_all(engine)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    from dio_blog.model.post import posts #noqa
     await database.connect()
+    metadata.create_all(engine)
     yield
     await database.disconnect()
 

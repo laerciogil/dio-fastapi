@@ -3,8 +3,8 @@ import jwt
 
 from typing import Annotated
 from uuid import uuid4
-from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi import Depends, HTTPException, Request, Request, status
+from fastapi.security import HTTPBearer
 from pydantic import BaseModel
 
 SECRET_KEY = "mysecretkey"
@@ -49,13 +49,19 @@ class JWTBearer(HTTPBearer):
     def __init__(self, auto_error: bool = True):
         super().__init__(auto_error=auto_error)
 
-    async def __call__(self, credentials: Annotated[HTTPAuthorizationCredentials, Depends(HTTPBearer())]) -> JWTToken:
+    async def __call__(self, request: Request) -> JWTToken:
+        authorization = request.headers.get("Authorization", "")
+        scheme, _, credentials = authorization.partition(" ")
+
         if credentials:
-            token = await decode_jwt(credentials.credentials)
-            if token:
-                return token
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid token or expired token.")
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authorization code.")
+            if not scheme == "Bearer":
+                raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication scheme.")
+            payload = await decode_jwt(credentials.credentials)
+            if not payload:
+                raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token or expired token.")
+            return payload
+        else:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authorization code.")
     
 async def get_current_user(token: Annotated[JWTToken, Depends(JWTBearer())]) -> dict[str, int]:
     print(token)

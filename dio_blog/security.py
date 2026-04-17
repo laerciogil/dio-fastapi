@@ -56,7 +56,7 @@ class JWTBearer(HTTPBearer):
         if credentials:
             if not scheme == "Bearer":
                 raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication scheme.")
-            payload = await decode_jwt(credentials.credentials)
+            payload = await decode_jwt(credentials)
             if not payload:
                 raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token or expired token.")
             return payload

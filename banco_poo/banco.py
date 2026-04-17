@@ -62,6 +62,9 @@ class PessoaFisica(Cliente):
     def cpf(self):
         return self._cpf
 
+    def __repr__(self):
+        return f"<{self.__class__.__name__}: ('{self.cpf}')>"
+
 class Conta:
     def __init__(self, numero, cliente):
         self._saldo = 0.0
@@ -146,6 +149,9 @@ class ContaCorrente(Conta):
             return False
         else:            
             return super().sacar(valor)
+        
+    def __repr__(self):
+        return f"<{self.__class__.__name__}: ('{self.agencia}', '{self.numero}', '{self.cliente.nome}')>"
         
     def __str__(self):
         return (f"Conta Corrente - Número: {self.numero},\n"

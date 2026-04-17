@@ -1,9 +1,7 @@
-from fastapi import Response, status, APIRouter
+from fastapi import status, APIRouter
 
-from dio_blog.database import database
 from dio_blog.view.post import PostResponse
 from dio_blog.schemas.post import PostRequest, PostUpdateRequest
-from dio_blog.model.post import posts
 from dio_blog.service.post import PostService
 
 service = PostService()

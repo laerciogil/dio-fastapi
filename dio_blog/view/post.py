@@ -2,5 +2,7 @@ from pydantic import BaseModel
 from datetime import datetime, UTC
 
 class PostResponse(BaseModel):
+    id: int
     title: str
-    date: datetime
+    content: str
+    published_at: datetime | None

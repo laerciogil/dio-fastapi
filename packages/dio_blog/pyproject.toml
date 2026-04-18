@@ -26,5 +26,25 @@ test = [
     "pytest-mock>=3.15.1",
 ]
 
+[tool.ruff]
+line-length = 88
+target-version = "py314"
+fix = true
+show-fixes = true
+indent-width = 4
+exclude = ["venv", ".venv", "env", ".env", "node_modules", "__pycache__"]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["D", "T201", "INP001"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["ANN201", "S101"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

@@ -2,7 +2,8 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 
 from dio_blog.database import database, metadata, engine
-from dio_blog.controller import auth, post
+from dio_blog.controller import post
+from dio_blog.controller import auth
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

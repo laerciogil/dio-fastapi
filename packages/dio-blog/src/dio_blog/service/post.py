@@ -8,7 +8,7 @@ from dio_blog.schemas.post import PostRequest, PostUpdateRequest
 class PostService:
 
     async def read_all(self, published: bool, limit: int, skip: int) -> list[Record]:
-        query = posts.select().limit(limit).offset(skip)
+        query = posts.select().limit(limit).offset(skip).where(posts.c.published == published)
         return await database.fetch_all(query)
     
     async def read(self, id: int) -> Record:

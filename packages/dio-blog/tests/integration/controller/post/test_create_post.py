@@ -30,7 +30,7 @@ async def test_create_post_invalid_payload_fail(client: AsyncClient, access_toke
     # then
     content = response.json()
 
-    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT
     assert content["detail"][0]["loc"] == ["body", "title"]
 
 async def test_create_post_not_authenticated_fail(client: AsyncClient):

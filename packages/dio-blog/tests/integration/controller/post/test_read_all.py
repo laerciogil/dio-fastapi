@@ -79,4 +79,4 @@ async def test_read_posts_empty_parameters_fail(client: AsyncClient, access_toke
     response = await client.get("/posts", params={}, headers=headers)
 
     # then
-    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT

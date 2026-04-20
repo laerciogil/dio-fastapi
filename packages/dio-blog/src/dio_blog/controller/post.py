@@ -8,15 +8,15 @@ from dio_blog.security import login_required
 service = PostService()
 router = APIRouter(prefix="/posts", tags=["Posts"], dependencies=[Depends(login_required)])
 
-@router.get("/", response_model=list[PostResponse])
-async def read_posts(published: bool = False, limit: int = 10, skip: int = 0):
+@router.get("", response_model=list[PostResponse])
+async def read_posts(published: bool, skip: int, limit: int = 10):
     return await service.read_all(published, limit, skip)
 
 @router.get("/{id}", response_model=PostResponse)
 async def read_post(id: int):
     return await service.read(id)
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=PostResponse)
+@router.post("", status_code=status.HTTP_201_CREATED, response_model=PostResponse)
 async def create_post(post: PostRequest):
     id = await service.create(post)
     return await service.read(id)

@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
+import uvicorn
 
 from dio_blog.database import database, metadata, engine
 from dio_blog.controller import post
@@ -20,3 +21,6 @@ app = FastAPI(title="DIO Blog API",
 
 app.include_router(auth.router)
 app.include_router(post.router)
+
+def run():
+    uvicorn.run(app, host="0.0.0.0", port=8000)

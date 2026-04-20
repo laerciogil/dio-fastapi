@@ -1,5 +1,5 @@
 import sqlalchemy as sa
-from dio_blog.main import metadata
+from dio_blog.database import metadata
 
 posts = sa.Table(
     "posts",

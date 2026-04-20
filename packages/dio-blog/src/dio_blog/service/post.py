@@ -29,8 +29,9 @@ class PostService:
 
     async def __count(self, id: int) -> int:
         query = "SELECT COUNT(*) total FROM posts WHERE id = :id"
-        return await database.fetch_one(query, values={"id": id}).total
-    
+        result = await database.fetch_one(query, values={"id": id})
+        return result["total"] if result else 0
+
     async def __get_by_id(self, id: int) -> Record:
         query = posts.select().where(posts.c.id == id)
         post = await database.fetch_one(query)

@@ -1,0 +1,24 @@
+[project]
+name = "banco-poo"
+version = "0.1.0"
+description = "Add your description here"
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["./src/banco_poo"]
+
+[tool.ruff]
+extend = "../pyproject.toml"
+
+[tool.pyright]
+extend = "../pyproject.toml"
+
+[tool.pytest]
+extend = "../pyproject.toml"

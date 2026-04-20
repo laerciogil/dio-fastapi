@@ -7,7 +7,7 @@ from fastapi import Depends, HTTPException, Request, Request, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 
-SECRET_KEY = "mysecretkey"
+SECRET_KEY = "mysecretkey-with-a-minimum-of-32-bytes"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_SECONDS = 3600
 

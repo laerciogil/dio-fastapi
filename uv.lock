@@ -52,7 +52,7 @@ wheels = [
 [[package]]
 name = "banco-poo"
 version = "0.1.0"
-source = { editable = "packages/banco_poo" }
+source = { editable = "packages/banco-poo" }
 
 [[package]]
 name = "certifi"
@@ -104,7 +104,7 @@ aiosqlite = [
 [[package]]
 name = "dio-blog"
 version = "0.1.0"
-source = { editable = "packages/dio_blog" }
+source = { editable = "packages/dio-blog" }
 dependencies = [
     { name = "databases", extra = ["aiosqlite"] },
     { name = "fastapi" },
@@ -151,8 +151,8 @@ test = [
 
 [package.metadata]
 requires-dist = [
-    { name = "banco-poo", editable = "packages/banco_poo" },
-    { name = "dio-blog", editable = "packages/dio_blog" },
+    { name = "banco-poo", editable = "packages/banco-poo" },
+    { name = "dio-blog", editable = "packages/dio-blog" },
 ]
 
 [package.metadata.requires-dev]

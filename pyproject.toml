@@ -72,7 +72,7 @@ exclude = [
   "**/node_modules",
   "**/__pycache__",
 ]
-extraPaths = ["./packages/dio-blog/src", "./packages/banco-poo/src"]
+extraPaths = ["packages/dio-blog/src", "packages/banco-poo/src"]
 venv = ".venv"
 venvPath = "."
 executionEnvironments = [{ root = "packages" }]

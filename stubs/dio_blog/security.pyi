@@ -1,5 +1,5 @@
 from fastapi import Depends as Depends, Request as Request
-from fastapi.security import HTTPBearer
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel
 from typing import Annotated
 
@@ -16,15 +16,17 @@ class AccessToken(BaseModel):
     nbf: float
     jti: str
 
-class JWTToken(BaseModel):
+class JWTToken(HTTPAuthorizationCredentials):
+    scheme: str
+    credentials: str
     access_token: AccessToken
 
-def sign_jwt(user_id: int) -> JWTToken: ...
+def sign_jwt(user_id: int): ...
 async def decode_jwt(token: str) -> JWTToken | None: ...
 
 class JWTBearer(HTTPBearer):
     def __init__(self, auto_error: bool = True) -> None: ...
-    async def __call__(self, request: Request) -> JWTToken: ...
+    async def __call__(self, request: Request) -> JWTToken | None: ...
 
 async def get_current_user(token: Annotated[JWTToken, None]) -> dict[str, int]: ...
 def login_required(current_user: Annotated[dict[str, int], None]): ...

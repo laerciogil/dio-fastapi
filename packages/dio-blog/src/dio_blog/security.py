@@ -4,7 +4,7 @@ import jwt
 from typing import Annotated
 from uuid import uuid4
 from fastapi import Depends, HTTPException, Request, Request, status
-from fastapi.security import HTTPBearer
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 
 SECRET_KEY = "mysecretkey"
@@ -20,10 +20,12 @@ class AccessToken(BaseModel):
     nbf: float
     jti: str
 
-class JWTToken(BaseModel):
+class JWTToken(HTTPAuthorizationCredentials):
+    scheme: str = "Bearer"
+    credentials: str
     access_token: AccessToken
 
-def sign_jwt(user_id: int) -> JWTToken:
+def sign_jwt(user_id: int):
     now = time.time()
     payload = {
         "iss": "dio-blog",
@@ -40,7 +42,7 @@ def sign_jwt(user_id: int) -> JWTToken:
 async def decode_jwt(token: str) -> JWTToken | None:
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM], audience="dio-blog-users")
-        _token = JWTToken.model_validate({"access_token": payload})
+        _token = JWTToken(access_token=AccessToken.model_validate(payload), scheme="Bearer", credentials=token)
         return _token if _token.access_token.exp > time.time() else None
     except Exception:
         return None
@@ -49,7 +51,7 @@ class JWTBearer(HTTPBearer):
     def __init__(self, auto_error: bool = True):
         super().__init__(auto_error=auto_error)
 
-    async def __call__(self, request: Request) -> JWTToken:
+    async def __call__(self, request: Request) -> JWTToken | None:
         authorization = request.headers.get("Authorization", "")
         scheme, _, credentials = authorization.partition(" ")
 
@@ -64,7 +66,6 @@ class JWTBearer(HTTPBearer):
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authorization code.")
     
 async def get_current_user(token: Annotated[JWTToken, Depends(JWTBearer())]) -> dict[str, int]:
-    print(token)
     return {"user_id": int(token.access_token.sub)}
 
 def login_required(current_user: Annotated[dict[str, int], Depends(get_current_user)]):

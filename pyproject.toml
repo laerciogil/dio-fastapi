@@ -72,9 +72,14 @@ exclude = [
   "**/node_modules",
   "**/__pycache__",
 ]
-extraPaths = ["./packages"]
+extraPaths = ["./packages/dio-blog/src", "./packages/banco-poo/src"]
 venv = ".venv"
 venvPath = "."
 executionEnvironments = [{ root = "packages" }]
 reportMissingTypeStubs = true
 stubPath = "stubs"
+
+[tool.mypy]
+explicit_package_bases = true
+namespace_packages = true
+mypy_path = ["packages/dio-blog/src", "packages/banco-poo/src"]
